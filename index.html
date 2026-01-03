@@ -359,7 +359,7 @@ button {
 
       async function refreshUI(sessionOverride) {
         let session = sessionOverride;
-        if (!session) {
+        if (sessionOverride === undefined) {
           const { data, error } = await supabaseClient.auth.getSession();
           if (error) setMsg("Session error: " + error.message);
           session = data?.session || null;
