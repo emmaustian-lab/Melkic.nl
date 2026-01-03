@@ -407,9 +407,10 @@ button {
 
       // Logout
       logoutBtn?.addEventListener("click", async () => {
-        await supabaseClient.auth.signOut();
+        await supabaseClient.auth.signOut({ scope: "local" });
+        localStorage.removeItem("sb-cgeescjioqfmjfgdtlnm-auth-token");
         setMsg("Uitgelogd.");
-        await refreshUI();
+        await refreshUI(null);
       });
 
       supabaseClient.auth.onAuthStateChange((_event, session) => refreshUI(session));
