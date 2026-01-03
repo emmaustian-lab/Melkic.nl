@@ -40,6 +40,16 @@
       }
       .topbar a{padding:6px 8px; border-radius:10px}
       .topbar a.active{color:var(--text); font-weight:600}
+      .topbar-logout{
+        margin-left:auto;
+        padding:6px 10px;
+        border:1px solid var(--border);
+        border-radius:10px;
+        background:#fff;
+        font-size:12px;
+        font-weight:600;
+        cursor:pointer;
+      }
       /* header row */
       .header{
         display:flex; align-items:center; justify-content:space-between;
@@ -205,10 +215,6 @@ button {
             Account maken
           </button>
 
-          <button id="logoutBtn" type="button" style="padding:10px 12px; border:1px solid var(--border); border-radius:10px; font-weight:700; background:#fff; cursor:pointer; display:none;">
-            Uitloggen
-          </button>
-
           <div id="authMsg" style="font-size:12px; color:var(--muted);"></div>
         </form>
       </section>
@@ -217,6 +223,7 @@ button {
         <nav class="topbar" aria-label="Primary">
           <a class="active" href="#">melkic</a>
           <a href="#">finance</a>
+          <button id="logoutBtn" type="button" class="topbar-logout">Uitloggen</button>
         </nav>
 
         <div class="header">
