@@ -55,6 +55,17 @@
         display:flex; align-items:center; justify-content:space-between;
         margin:40px 0 18px;
       }
+      .header-right{
+        display:flex;
+        align-items:center;
+        gap:12px;
+      }
+      .today-date{
+        font-size:12px;
+        color:var(--muted);
+        font-weight:600;
+        text-transform:capitalize;
+      }
       .back{
         font-size:14px; color:var(--muted); font-weight:600;
       }
@@ -179,6 +190,14 @@
         overflow:hidden;
         text-overflow:ellipsis;
       }
+      .provider{
+        font-size:12px;
+        color:var(--muted);
+        margin-top:4px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
       .tag{
         display:inline-block;
         font-size:11px;
@@ -265,10 +284,13 @@ button {
         </nav>
 
         <div class="header">
-          <a class="back" href="#">Back to home</a>
-          <button class="kebab" aria-label="Menu">
-            <span>···</span>
-          </button>
+          <a class="back" href="#">Terug naar home</a>
+          <div class="header-right">
+            <span id="todayDate" class="today-date"></span>
+            <button class="kebab" aria-label="Menu">
+              <span>···</span>
+            </button>
+          </div>
         </div>
 
         <section class="grid" aria-label="Overview">
@@ -317,10 +339,8 @@ button {
           <div class="row payment-card" data-day="1">
             <div class="icon" title="Huur">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Huur</div>
-                <div class="sub">Vesteda</div>
-              </div>
+              <div class="title">Huur</div>
+              <div class="provider">Vesteda</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -332,10 +352,8 @@ button {
           <div class="row payment-card" data-day="1">
             <div class="icon" title="Parkeer">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Parkeer</div>
-                <div class="sub">Vesteda</div>
-              </div>
+              <div class="title">Parkeer</div>
+              <div class="provider">Vesteda</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -347,10 +365,8 @@ button {
           <div class="row payment-card" data-day="1">
             <div class="icon" title="W+K en stroom">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">W+K en stroom</div>
-                <div class="sub">Eneco</div>
-              </div>
+              <div class="title">W+K en stroom</div>
+              <div class="provider">Eneco</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -362,10 +378,8 @@ button {
           <div class="row payment-card" data-day="1">
             <div class="icon" title="Water">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Water</div>
-                <div class="sub">Evides</div>
-              </div>
+              <div class="title">Water</div>
+              <div class="provider">Evides</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -377,10 +391,8 @@ button {
           <div class="row payment-card" data-day="1">
             <div class="icon" title="Afvalstoffenheffing">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Afvalstoffenheffing</div>
-                <div class="sub">Gemeente Rdam</div>
-              </div>
+              <div class="title">Afvalstoffenheffing</div>
+              <div class="provider">Gemeente Rdam</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -392,10 +404,8 @@ button {
           <div class="row payment-card" data-day="1">
             <div class="icon" title="Woonverzekering">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Woonverzekering</div>
-                <div class="sub">ING</div>
-              </div>
+              <div class="title">Woonverzekering</div>
+              <div class="provider">ING</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -407,10 +417,8 @@ button {
           <div class="row payment-card" data-day="5">
             <div class="icon" title="Internet thuis">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Internet thuis</div>
-                <div class="sub">KPN</div>
-              </div>
+              <div class="title">Internet thuis</div>
+              <div class="provider">KPN</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -422,10 +430,8 @@ button {
           <div class="row payment-card" data-day="25">
             <div class="icon" title="YouTube Premium">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">YouTube Premium</div>
-                <div class="sub">Paypal G</div>
-              </div>
+              <div class="title">YouTube Premium</div>
+              <div class="provider">Paypal G</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -437,10 +443,8 @@ button {
           <div class="row payment-card" data-day="28">
             <div class="icon" title="Motorrijtuigenbelasting">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Motorrijtuigenbelasting</div>
-                <div class="sub">Belastingdienst</div>
-              </div>
+              <div class="title">Motorrijtuigenbelasting</div>
+              <div class="provider">Belastingdienst</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -452,10 +456,8 @@ button {
           <div class="row payment-card" data-day="30">
             <div class="icon" title="Waterschap">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Waterschap</div>
-                <div class="sub">SVHW</div>
-              </div>
+              <div class="title">Waterschap</div>
+              <div class="provider">SVHW</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -467,10 +469,8 @@ button {
           <div class="row payment-card" data-day="30">
             <div class="icon" title="Autoverzekering">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Autoverzekering</div>
-                <div class="sub">Voogd&amp;voogd</div>
-              </div>
+              <div class="title">Autoverzekering</div>
+              <div class="provider">Voogd&amp;voogd</div>
               <div class="tag">Gezamenlijk</div>
             </div>
             <div class="amount">
@@ -482,10 +482,8 @@ button {
           <div class="row payment-card" data-day="1">
             <div class="icon" title="Aansprakelijkheidsverz">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Aansprakelijkheidsverz</div>
-                <div class="sub">ING</div>
-              </div>
+              <div class="title">Aansprakelijkheidsverz</div>
+              <div class="provider">ING</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -497,10 +495,8 @@ button {
           <div class="row payment-card" data-day="1">
             <div class="icon" title="Uitvaartverzekering">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Uitvaartverzekering</div>
-                <div class="sub">Monuta</div>
-              </div>
+              <div class="title">Uitvaartverzekering</div>
+              <div class="provider">Monuta</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -512,10 +508,8 @@ button {
           <div class="row payment-card" data-day="2">
             <div class="icon" title="iCloud+ duo">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">iCloud+ duo</div>
-                <div class="sub">PayPal G.</div>
-              </div>
+              <div class="title">iCloud+ duo</div>
+              <div class="provider">PayPal G.</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -527,10 +521,8 @@ button {
           <div class="row payment-card" data-day="10">
             <div class="icon" title="Spotify duo">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Spotify duo</div>
-                <div class="sub">iDeal G.</div>
-              </div>
+              <div class="title">Spotify duo</div>
+              <div class="provider">iDeal G.</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -542,10 +534,8 @@ button {
           <div class="row payment-card" data-day="16">
             <div class="icon" title="OneDrive opslag">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">OneDrive opslag</div>
-                <div class="sub">iDeal?</div>
-              </div>
+              <div class="title">OneDrive opslag</div>
+              <div class="provider">iDeal?</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -557,10 +547,8 @@ button {
           <div class="row payment-card" data-day="23">
             <div class="icon" title="Saga spaar">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Saga spaar</div>
-                <div class="sub">—</div>
-              </div>
+              <div class="title">Saga spaar</div>
+              <div class="provider">—</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -572,10 +560,8 @@ button {
           <div class="row payment-card" data-day="23">
             <div class="icon" title="ChatGPT">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">ChatGPT</div>
-                <div class="sub">Paypal G.</div>
-              </div>
+              <div class="title">ChatGPT</div>
+              <div class="provider">Paypal G.</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -587,10 +573,8 @@ button {
           <div class="row payment-card" data-day="27">
             <div class="icon" title="Adobe Student">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Adobe Student</div>
-                <div class="sub">iDeal G.</div>
-              </div>
+              <div class="title">Adobe Student</div>
+              <div class="provider">iDeal G.</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -602,10 +586,8 @@ button {
           <div class="row payment-card" data-day="27">
             <div class="icon" title="Oura">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Oura</div>
-                <div class="sub">PayPal G.</div>
-              </div>
+              <div class="title">Oura</div>
+              <div class="provider">PayPal G.</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -617,10 +599,8 @@ button {
           <div class="row payment-card" data-day="27">
             <div class="icon" title="Zorgverzekering">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Zorgverzekering</div>
-                <div class="sub">VGZ</div>
-              </div>
+              <div class="title">Zorgverzekering</div>
+              <div class="provider">VGZ</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -632,10 +612,8 @@ button {
           <div class="row payment-card" data-day="30">
             <div class="icon" title="Telefoonabonnement">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Telefoonabonnement</div>
-                <div class="sub">KPN</div>
-              </div>
+              <div class="title">Telefoonabonnement</div>
+              <div class="provider">KPN</div>
               <div class="tag">Emma</div>
             </div>
             <div class="amount">
@@ -647,10 +625,8 @@ button {
           <div class="row payment-card" data-day="2">
             <div class="icon" title="Splice $">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Splice $</div>
-                <div class="sub">Paypal G.</div>
-              </div>
+              <div class="title">Splice $</div>
+              <div class="provider">Paypal G.</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -662,10 +638,8 @@ button {
           <div class="row payment-card" data-day="2">
             <div class="icon" title="Uitvaartverzekering">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Uitvaartverzekering</div>
-                <div class="sub">Monuta</div>
-              </div>
+              <div class="title">Uitvaartverzekering</div>
+              <div class="provider">Monuta</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -677,10 +651,8 @@ button {
           <div class="row payment-card" data-day="5">
             <div class="icon" title="SportCity">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">SportCity</div>
-                <div class="sub">iDeal G.</div>
-              </div>
+              <div class="title">SportCity</div>
+              <div class="provider">iDeal G.</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -692,10 +664,8 @@ button {
           <div class="row payment-card" data-day="5">
             <div class="icon" title="Melkman.studio $">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Melkman.studio $</div>
-                <div class="sub">Google</div>
-              </div>
+              <div class="title">Melkman.studio $</div>
+              <div class="provider">Google</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -707,10 +677,8 @@ button {
           <div class="row payment-card" data-day="25">
             <div class="icon" title="DUO">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">DUO</div>
-                <div class="sub">Studieschuld</div>
-              </div>
+              <div class="title">DUO</div>
+              <div class="provider">Studieschuld</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -722,10 +690,8 @@ button {
           <div class="row payment-card" data-day="27">
             <div class="icon" title="Zorgverzekering">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Zorgverzekering</div>
-                <div class="sub">VGZ</div>
-              </div>
+              <div class="title">Zorgverzekering</div>
+              <div class="provider">VGZ</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -737,10 +703,8 @@ button {
           <div class="row payment-card" data-day="28">
             <div class="icon" title="Telefoonabonnement">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Telefoonabonnement</div>
-                <div class="sub">KPN</div>
-              </div>
+              <div class="title">Telefoonabonnement</div>
+              <div class="provider">KPN</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -752,10 +716,8 @@ button {
           <div class="row payment-card" data-day="30">
             <div class="icon" title="Gmail">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Gmail</div>
-                <div class="sub">Paypal G.</div>
-              </div>
+              <div class="title">Gmail</div>
+              <div class="provider">Paypal G.</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -767,10 +729,8 @@ button {
           <div class="row payment-card" data-day="30">
             <div class="icon" title="Aansprakelijkheidsverz">💳</div>
             <div>
-              <div class="titleline">
-                <div class="title">Aansprakelijkheidsverz</div>
-                <div class="sub">Voogd&amp;Voogd</div>
-              </div>
+              <div class="title">Aansprakelijkheidsverz</div>
+              <div class="provider">Voogd&amp;Voogd</div>
               <div class="tag">Hamza</div>
             </div>
             <div class="amount">
@@ -798,9 +758,21 @@ button {
       const logoutBtn = document.getElementById("logoutBtn");
       const authMsg = document.getElementById("authMsg");
       const paymentsTrack = document.getElementById("paymentsTrack");
+      const todayDate = document.getElementById("todayDate");
 
       function setMsg(t) {
         if (authMsg) authMsg.textContent = t || "";
+      }
+
+      function setTodayDate() {
+        if (!todayDate) return;
+        const formatter = new Intl.DateTimeFormat("nl-NL", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        });
+        todayDate.textContent = formatter.format(new Date());
       }
 
       function daysUntil(day) {
@@ -892,5 +864,6 @@ button {
 
       supabaseClient.auth.onAuthStateChange((_event, session) => refreshUI(session));
       sortPayments();
+      setTodayDate();
       refreshUI();
     </script>
