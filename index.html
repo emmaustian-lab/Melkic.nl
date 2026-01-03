@@ -350,11 +350,15 @@ button {
         if (authMsg) authMsg.textContent = t || "";
       }
 
-      async function refreshUI() {
-        const { data, error } = await supabaseClient.auth.getSession();
-        if (error) setMsg("Session error: " + error.message);
+      async function refreshUI(sessionOverride) {
+        let session = sessionOverride;
+        if (!session) {
+          const { data, error } = await supabaseClient.auth.getSession();
+          if (error) setMsg("Session error: " + error.message);
+          session = data?.session || null;
+        }
 
-        const loggedIn = !!data?.session;
+        const loggedIn = !!session;
 
         if (app) app.style.display = loggedIn ? "" : "none";
         if (authSection) authSection.style.display = loggedIn ? "none" : "";
@@ -373,11 +377,11 @@ button {
         const email = document.getElementById("email")?.value?.trim();
         const password = document.getElementById("password")?.value;
 
-        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
         if (error) return setMsg("Inloggen mislukt: " + error.message);
 
         setMsg("Ingelogd.");
-        await refreshUI();
+        await refreshUI(data?.session || null);
       });
 
       // Signup
@@ -387,11 +391,11 @@ button {
         const email = document.getElementById("email")?.value?.trim();
         const password = document.getElementById("password")?.value;
 
-        const { error } = await supabaseClient.auth.signUp({ email, password });
+        const { data, error } = await supabaseClient.auth.signUp({ email, password });
         if (error) return setMsg("Account maken mislukt: " + error.message);
 
         setMsg("Account gemaakt. Probeer nu in te loggen.");
-        await refreshUI();
+        await refreshUI(data?.session || null);
       });
 
       // Logout
@@ -401,6 +405,6 @@ button {
         await refreshUI();
       });
 
-      supabaseClient.auth.onAuthStateChange(() => refreshUI());
+      supabaseClient.auth.onAuthStateChange((_event, session) => refreshUI(session));
       refreshUI();
     </script>
