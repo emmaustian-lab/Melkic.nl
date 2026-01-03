@@ -20,6 +20,26 @@
         align-items:center;
         justify-content:center;
       }
+        /* 1. The Screen Wrapper */
+    body.auth-only {
+        background-color: #FAFAFA; /* Your requested background color */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    /* 2. The Login Card (The 'Auth Body') */
+    #auth {
+        background-color: #ffffff;   /* Usually white to pop against the FAFAFA background */
+        border-radius: 9px;          /* Your requested border radius */
+        border: 1px solid #e5e7eb;   /* A subtle border to define the shape */
+        padding: 40px;
+        width: 100%;
+        max-width: 400px;            /* Keeps the login box from getting too wide */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Soft shadow for a modern look */
+    }
       body.auth-only .wrap{width:100%}
       body.auth-only #auth{margin:0 auto}
       a{color:inherit; text-decoration:none}
