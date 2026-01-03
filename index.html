@@ -355,14 +355,30 @@ button {
         if (authMsg) authMsg.textContent = text || "";
       }
 
-      async function refreshUI() {
-        const { data } = await supabaseClient.auth.getSession();
-        const loggedIn = !!data.session;
+      function withTimeout(promise, ms, label) {
+        let timerId;
+        const timeout = new Promise((_, reject) => {
+          timerId = setTimeout(() => {
+            reject(new Error(`${label} timeout na ${ms}ms`));
+          }, ms);
+        });
 
-        if (app) app.style.display = loggedIn ? "" : "none";
-        if (logoutBtn) logoutBtn.style.display = loggedIn ? "" : "none";
-        if (signupBtn) signupBtn.style.display = loggedIn ? "none" : "";
-        setMsg(loggedIn ? "Je bent ingelogd." : "Log in om verder te gaan.");
+        return Promise.race([promise, timeout]).finally(() => clearTimeout(timerId));
+      }
+
+      async function refreshUI() {
+        try {
+          const { data } = await supabaseClient.auth.getSession();
+          const loggedIn = !!data.session;
+
+          if (app) app.style.display = loggedIn ? "" : "none";
+          if (logoutBtn) logoutBtn.style.display = loggedIn ? "" : "none";
+          if (signupBtn) signupBtn.style.display = loggedIn ? "none" : "";
+          setMsg(loggedIn ? "Je bent ingelogd." : "Log in om verder te gaan.");
+        } catch (err) {
+          console.error("refreshUI error:", err);
+          setMsg("Er ging iets mis bij het ophalen van je sessie.");
+        }
       }
 
       // Safety check
@@ -377,8 +393,18 @@ button {
           const email = document.getElementById("email")?.value?.trim();
           const password = document.getElementById("password")?.value;
 
-          const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-          if (error) return setMsg("Inloggen mislukt: " + error.message);
+          try {
+            const { data, error } = await withTimeout(
+              supabaseClient.auth.signInWithPassword({ email, password }),
+              12000,
+              "Login"
+            );
+            console.log("login response:", data, error);
+            if (error) return setMsg("Inloggen mislukt: " + error.message);
+          } catch (err) {
+            console.error("login error:", err);
+            return setMsg("Inloggen mislukt: " + err.message);
+          }
 
           setMsg("Ingelogd.");
           await refreshUI();
@@ -391,8 +417,18 @@ button {
           const email = document.getElementById("email")?.value?.trim();
           const password = document.getElementById("password")?.value;
 
-          const { error } = await supabaseClient.auth.signUp({ email, password });
-          if (error) return setMsg("Account maken mislukt: " + error.message);
+          try {
+            const { data, error } = await withTimeout(
+              supabaseClient.auth.signUp({ email, password }),
+              12000,
+              "Signup"
+            );
+            console.log("signup response:", data, error);
+            if (error) return setMsg("Account maken mislukt: " + error.message);
+          } catch (err) {
+            console.error("signup error:", err);
+            return setMsg("Account maken mislukt: " + err.message);
+          }
 
           setMsg("Account gemaakt. Kijk in je mail als er bevestiging nodig is, of probeer te loggen.");
           await refreshUI();
