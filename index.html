@@ -21,6 +21,14 @@
         color:var(--text);
         background:var(--bg);
       }
+      body.auth-only{
+        min-height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+      body.auth-only .wrap{width:100%}
+      body.auth-only #auth{margin:0 auto}
       a{color:inherit; text-decoration:none}
       .wrap{max-width:1040px; margin:0 auto; padding:28px 22px 60px;}
       /* top nav */
@@ -347,6 +355,7 @@
     app.style.display = loggedIn ? "" : "none";
     logoutBtn.style.display = loggedIn ? "" : "none";
     signupBtn.style.display = loggedIn ? "none" : "";
+    document.body.classList.toggle("auth-only", !loggedIn);
     setMsg(loggedIn ? "Je bent ingelogd." : "Log in om verder te gaan.");
   }
 
@@ -388,4 +397,3 @@
 </script>
   </body>
 </html>
-
