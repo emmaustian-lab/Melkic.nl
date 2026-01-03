@@ -323,93 +323,84 @@
       </div>
     </div>
 
-    <script>
-      // (optioneel) menu-knop dummy
-      document.querySelector(".kebab")?.addEventListener("click", () => {
-        alert("Menu (later kunnen we hier instellingen / toevoegen / bewerken zetten).");
-      });
-    </script>
-        <!-- jouw bestaande HTML hierboven -->
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script>
-  // 1) Supabase koppeling
-  const supabaseUrl = "https://cgeescjioqfmjfgdtlnm.supabase.co";
-  const supabaseKey = "sb_publishable_lXmIiIiDriKmapEhhRzCFw_oi6rLdxR";
-  const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+    <script>
+      // 1) Supabase koppeling
+      const supabaseUrl = "https://cgeescjioqfmjfgdtlnm.supabase.co";
+      const supabaseKey = "sb_publishable_lXmIiIiDriKmapEhhRzCFw_oi6rLdxR";
+      const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-  // 2) Menu knop (optioneel)
-  const kebab = document.querySelector(".kebab");
-  if (kebab) {
-    kebab.addEventListener("click", () => alert("Menu (later)"));
-  }
+      // 2) Menu knop (optioneel)
+      const kebab = document.querySelector(".kebab");
+      if (kebab) {
+        kebab.addEventListener("click", () => alert("Menu (later)"));
+      }
 
-  // 3) Login UI refs
-  const app = document.getElementById("app");
-  const loginForm = document.getElementById("loginForm");
-  const signupBtn = document.getElementById("signupBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const authMsg = document.getElementById("authMsg");
+      // 3) Login UI refs
+      const app = document.getElementById("app");
+      const loginForm = document.getElementById("loginForm");
+      const signupBtn = document.getElementById("signupBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const authMsg = document.getElementById("authMsg");
 
-  function setMsg(text) {
-    if (authMsg) authMsg.textContent = text || "";
-  }
+      function setMsg(text) {
+        if (authMsg) authMsg.textContent = text || "";
+      }
 
-  async function refreshUI() {
-    const { data } = await supabaseClient.auth.getSession();
-    const loggedIn = !!data.session;
+      async function refreshUI() {
+        const { data } = await supabaseClient.auth.getSession();
+        const loggedIn = !!data.session;
 
-    if (app) app.style.display = loggedIn ? "" : "none";
-    if (logoutBtn) logoutBtn.style.display = loggedIn ? "" : "none";
-    if (signupBtn) signupBtn.style.display = loggedIn ? "none" : "";
-    setMsg(loggedIn ? "Je bent ingelogd." : "Log in om verder te gaan.");
-  }
+        if (app) app.style.display = loggedIn ? "" : "none";
+        if (logoutBtn) logoutBtn.style.display = loggedIn ? "" : "none";
+        if (signupBtn) signupBtn.style.display = loggedIn ? "none" : "";
+        setMsg(loggedIn ? "Je bent ingelogd." : "Log in om verder te gaan.");
+      }
 
-  // Safety check
-  if (!loginForm || !signupBtn) {
-    setMsg("Login UI niet gevonden. Check of loginForm en signupBtn bestaan in HTML.");
-  } else {
-    // Login submit
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      setMsg("Bezig met inloggen...");
+      // Safety check
+      if (!loginForm || !signupBtn) {
+        setMsg("Login UI niet gevonden. Check of loginForm en signupBtn bestaan in HTML.");
+      } else {
+        // Login submit
+        loginForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          setMsg("Bezig met inloggen...");
 
-      const email = document.getElementById("email")?.value?.trim();
-      const password = document.getElementById("password")?.value;
+          const email = document.getElementById("email")?.value?.trim();
+          const password = document.getElementById("password")?.value;
 
-      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-      if (error) return setMsg("Inloggen mislukt: " + error.message);
+          const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) return setMsg("Inloggen mislukt: " + error.message);
 
-      setMsg("Ingelogd.");
-      await refreshUI();
-    });
+          setMsg("Ingelogd.");
+          await refreshUI();
+        });
 
-    // Signup
-    signupBtn.addEventListener("click", async () => {
-      setMsg("Account aanmaken...");
+        // Signup
+        signupBtn.addEventListener("click", async () => {
+          setMsg("Account aanmaken...");
 
-      const email = document.getElementById("email")?.value?.trim();
-      const password = document.getElementById("password")?.value;
+          const email = document.getElementById("email")?.value?.trim();
+          const password = document.getElementById("password")?.value;
 
-      const { error } = await supabaseClient.auth.signUp({ email, password });
-      if (error) return setMsg("Account maken mislukt: " + error.message);
+          const { error } = await supabaseClient.auth.signUp({ email, password });
+          if (error) return setMsg("Account maken mislukt: " + error.message);
 
-      setMsg("Account gemaakt. Kijk in je mail als er bevestiging nodig is, of probeer te loggen.");
-      await refreshUI();
-    });
+          setMsg("Account gemaakt. Kijk in je mail als er bevestiging nodig is, of probeer te loggen.");
+          await refreshUI();
+        });
 
-    // Logout
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", async () => {
-        await supabaseClient.auth.signOut();
-        setMsg("Uitgelogd.");
-        await refreshUI();
-      });
-    }
-  }
+        // Logout
+        if (logoutBtn) {
+          logoutBtn.addEventListener("click", async () => {
+            await supabaseClient.auth.signOut();
+            setMsg("Uitgelogd.");
+            await refreshUI();
+          });
+        }
+      }
 
-  // Update UI when auth changes
-  supabaseClient.auth.onAuthStateChange(() => refreshUI());
-  refreshUI();
-</script>
-
+      // Update UI when auth changes
+      supabaseClient.auth.onAuthStateChange(() => refreshUI());
+      refreshUI();
+    </script>
