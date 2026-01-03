@@ -366,20 +366,18 @@ button {
         return Promise.race([promise, timeout]).finally(() => clearTimeout(timerId));
       }
 
-      async function refreshUI() {
-        try {
-          const { data } = await supabaseClient.auth.getSession();
-          const loggedIn = !!data.session;
+    async function refreshUI() {
+  const { data } = await supabaseClient.auth.getSession();
+  const loggedIn = !!data.session;
 
-          if (app) app.style.display = loggedIn ? "" : "none";
-          if (logoutBtn) logoutBtn.style.display = loggedIn ? "" : "none";
-          if (signupBtn) signupBtn.style.display = loggedIn ? "none" : "";
-          setMsg(loggedIn ? "Je bent ingelogd." : "Log in om verder te gaan.");
-        } catch (err) {
-          console.error("refreshUI error:", err);
-          setMsg("Er ging iets mis bij het ophalen van je sessie.");
-        }
-      }
+  const auth = document.getElementById("auth");
+
+  if (app) app.style.display = loggedIn ? "" : "none";
+  if (auth) auth.style.display = loggedIn ? "none" : "";
+  if (logoutBtn) logoutBtn.style.display = loggedIn ? "" : "none";
+  if (signupBtn) signupBtn.style.display = loggedIn ? "none" : "";
+}
+  
 
       // Safety check
       if (!loginForm || !signupBtn) {
