@@ -22,7 +22,7 @@
       }
         /* 1. The Screen Wrapper */
     body.auth-only {
-        background-color: #FAFAFA; /* Your requested background color */
+        background-color: #EDEDF1; /* Your requested background color */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -32,9 +32,9 @@
 
     /* 2. The Login Card (The 'Auth Body') */
     #auth {
-        background-color: #ffffff;   /* Usually white to pop against the FAFAFA background */
+        background-color: #FAFAFA;   /* Usually white to pop against the FAFAFA background */
         border-radius: 9px;          /* Your requested border radius */
-        border: 1px solid #e5e7eb;   /* A subtle border to define the shape */
+        border: 1px solid #dddfe2;   /* A subtle border to define the shape */
         padding: 40px;
         width: 100%;
         max-width: 400px;            /* Keeps the login box from getting too wide */
