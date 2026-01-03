@@ -3,11 +3,294 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Begroting</title>
+    <title>Finance Dashboard</title>
+    <style>
+      :root{
+        --bg:#ffffff;
+        --text:#0f172a;
+        --muted:#64748b;
+        --border:#e5e7eb;
+        --card:#ffffff;
+        --shadow: 0 10px 25px rgba(2,6,23,.06);
+        --radius:14px;
+      }
+      *{box-sizing:border-box}
+      body{
+        margin:0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+        color:var(--text);
+        background:var(--bg);
+      }
+      a{color:inherit; text-decoration:none}
+      .wrap{max-width:1040px; margin:0 auto; padding:28px 22px 60px;}
+      /* top nav */
+      .topbar{
+        display:flex; align-items:center; justify-content:center;
+        gap:26px; color:var(--muted);
+        font-size:14px;
+        margin-top:8px;
+      }
+      .topbar a{padding:6px 8px; border-radius:10px}
+      .topbar a.active{color:var(--text); font-weight:600}
+      /* header row */
+      .header{
+        display:flex; align-items:center; justify-content:space-between;
+        margin:40px 0 18px;
+      }
+      .back{
+        font-size:14px; color:var(--muted); font-weight:600;
+      }
+      .kebab{
+        width:36px; height:36px; border:1px solid var(--border);
+        border-radius:999px; display:grid; place-items:center;
+        background:#fff;
+      }
+      .kebab span{letter-spacing:2px; transform:translateY(-1px)}
+      /* main grid */
+      .grid{
+        display:grid;
+        grid-template-columns: 330px 1fr;
+        gap:16px;
+        align-items:stretch;
+      }
+
+      .bankcard{
+        border-radius:18px;
+        padding:18px 18px;
+        color:#eef2ff;
+        min-height:150px;
+        box-shadow: var(--shadow);
+        border:1px solid rgba(255,255,255,.18);
+        background:
+          radial-gradient(1100px 500px at 30% 120%, rgba(37,99,235,.85), transparent 60%),
+          radial-gradient(700px 400px at 85% 20%, rgba(16,185,129,.55), transparent 60%),
+          linear-gradient(135deg, rgba(15,23,42,.70), rgba(15,23,42,.35));
+        position:relative;
+        overflow:hidden;
+      }
+      .bankcard .name{font-size:12px; opacity:.95}
+      .bankcard .iban{font-size:12px; opacity:.85; margin-top:2px}
+      .rings{
+        position:absolute; right:18px; bottom:16px;
+        width:92px; height:56px;
+      }
+      .rings:before, .rings:after{
+        content:""; position:absolute; width:48px; height:48px;
+        border:1.8px solid rgba(255,255,255,.65);
+        border-radius:999px; top:6px;
+      }
+      .rings:before{left:10px}
+      .rings:after{left:36px}
+
+      .stats{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows:minmax(84px, auto);
+        gap:12px;
+      }
+      .stat{
+        background:var(--card);
+        border:1px solid var(--border);
+        border-radius:12px;
+        padding:12px 12px;
+        box-shadow: 0 6px 18px rgba(2,6,23,.04);
+      }
+      .stat .label{font-size:12px; color:var(--muted); font-weight:600}
+      .stat .value{font-size:22px; font-weight:800; margin-top:6px}
+      .stat .hint{font-size:11px; color:var(--muted); margin-top:6px}
+      .stat.tall{
+        grid-row: span 2;
+      }
+
+      /* payments */
+      h2{
+        margin:26px 0 10px;
+        font-size:18px;
+      }
+      .payments{
+        border:1px solid var(--border);
+        border-radius:14px;
+        overflow:hidden;
+        background:#fff;
+        box-shadow: 0 6px 18px rgba(2,6,23,.04);
+      }
+      .row{
+        display:grid;
+        grid-template-columns: 44px 1fr 120px;
+        align-items:center;
+        gap:12px;
+        padding:12px 14px;
+        border-top:1px solid var(--border);
+      }
+      .row:first-child{border-top:none}
+      .icon{
+        width:34px; height:34px;
+        border-radius:10px;
+        display:grid; place-items:center;
+        font-weight:700;
+        border:1px solid var(--border);
+        background:#fff;
+      }
+      .titleline{
+        display:flex; align-items:baseline; gap:8px;
+      }
+      .title{font-weight:700; font-size:13px}
+      .sub{font-size:12px; color:var(--muted)}
+      .tag{
+        display:inline-block;
+        font-size:11px;
+        padding:2px 7px;
+        border:1px solid var(--border);
+        color:var(--muted);
+        border-radius:999px;
+        margin-top:5px;
+        width:max-content;
+      }
+      .amount{
+        text-align:right;
+      }
+      .amount .euro{font-weight:800}
+      .amount .when{font-size:12px; color:var(--muted); margin-top:4px}
+
+      /* responsive */
+      @media (max-width: 860px){
+        .grid{grid-template-columns:1fr}
+        .stats{grid-template-columns: repeat(2, 1fr)}
+        .stat.tall{grid-row: auto}
+      }
+      @media (max-width: 520px){
+        .stats{grid-template-columns:1fr}
+        .row{grid-template-columns: 44px 1fr 96px}
+      }
+    </style>
   </head>
+
   <body>
-    <h1>Begroting</h1>
-    <p>Welkom. Dit is onze begroting.</p>
+    <div class="wrap">
+      <nav class="topbar" aria-label="Primary">
+        <a class="active" href="#">melkic</a>
+        <a href="#">finance</a>
+      </nav>
+
+      <div class="header">
+        <a class="back" href="#">Back to home</a>
+        <button class="kebab" aria-label="Menu">
+          <span>···</span>
+        </button>
+      </div>
+
+      <section class="grid" aria-label="Overview">
+        <div class="bankcard">
+          <div class="name">John Doe</div>
+          <div class="iban">NL03 INGB 8286 5326 33</div>
+          <div class="rings" aria-hidden="true"></div>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="label">Personal Balance</div>
+            <div class="value">€575.00</div>
+            <div class="hint">Salary in 12 days</div>
+          </div>
+
+          <div class="stat">
+            <div class="label">Bills</div>
+            <div class="value">€1175.00</div>
+            <div class="hint">Salary in 12 days</div>
+          </div>
+
+          <div class="stat tall">
+            <div class="label">Other Data</div>
+            <div class="value">€525.00</div>
+            <div class="hint">Salary in 12 days</div>
+          </div>
+
+          <div class="stat">
+            <div class="label">Savings</div>
+            <div class="value">€300.00</div>
+            <div class="hint">Salary in 12 days</div>
+          </div>
+
+          <div class="stat">
+            <div class="label">Groceries &amp; Gas</div>
+            <div class="value">€525.00</div>
+            <div class="hint">Salary in 12 days</div>
+          </div>
+        </div>
+      </section>
+
+      <h2>Upcoming Payments</h2>
+      <section class="payments" aria-label="Upcoming payments list">
+        <div class="row">
+          <div class="icon" title="Spotify">🟢</div>
+          <div>
+            <div class="titleline">
+              <div class="title">Spotify</div>
+              <div class="sub">Paypal</div>
+            </div>
+            <div class="tag">Emma</div>
+          </div>
+          <div class="amount">
+            <div class="euro">€18.00</div>
+            <div class="when">In 3 Days</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="icon" title="Internet">🌐</div>
+          <div>
+            <div class="titleline">
+              <div class="title">Internet Thuis</div>
+              <div class="sub">KPN</div>
+            </div>
+            <div class="tag">Gezamenlijk</div>
+          </div>
+          <div class="amount">
+            <div class="euro">€18.00</div>
+            <div class="when">In 4 Days</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="icon" title="Splice">🎚️</div>
+          <div>
+            <div class="titleline">
+              <div class="title">Splice</div>
+              <div class="sub">Paypal Gezamenlijk</div>
+            </div>
+            <div class="tag">Hamza</div>
+          </div>
+          <div class="amount">
+            <div class="euro">€18.00</div>
+            <div class="when">In 10 Days</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="icon" title="OneDrive">☁️</div>
+          <div>
+            <div class="titleline">
+              <div class="title">OneDrive</div>
+              <div class="sub">iDeal</div>
+            </div>
+            <div class="tag">Hamza</div>
+          </div>
+          <div class="amount">
+            <div class="euro">€18.00</div>
+            <div class="when">In 10 Days</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      // (optioneel) menu-knop dummy
+      document.querySelector(".kebab")?.addEventListener("click", () => {
+        alert("Menu (later kunnen we hier instellingen / toevoegen / bewerken zetten).");
+      });
+    </script>
   </body>
 </html>
+
+
 
