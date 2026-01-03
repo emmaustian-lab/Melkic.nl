@@ -384,29 +384,23 @@ button {
         setMsg("Login UI niet gevonden. Check of loginForm en signupBtn bestaan in HTML.");
       } else {
         // Login submit
-        loginForm.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          setMsg("Bezig met inloggen...");
+      loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  setMsg("Bezig met inloggen...");
 
-          const email = document.getElementById("email")?.value?.trim();
-          const password = document.getElementById("password")?.value;
+  const email = document.getElementById("email")?.value?.trim();
+  const password = document.getElementById("password")?.value;
 
-          try {
-            const { data, error } = await withTimeout(
-              supabaseClient.auth.signInWithPassword({ email, password }),
-              12000,
-              "Login"
-            );
-            console.log("login response:", data, error);
-            if (error) return setMsg("Inloggen mislukt: " + error.message);
-          } catch (err) {
-            console.error("login error:", err);
-            return setMsg("Inloggen mislukt: " + err.message);
-          }
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) return setMsg("Inloggen mislukt: " + error.message);
 
-          setMsg("Ingelogd.");
-          await refreshUI();
-        });
+    setMsg("Ingelogd.");
+    await refreshUI();
+  } catch (err) {
+    setMsg("Inloggen mislukt (netwerk/CORS/timeout): " + (err?.message || err));
+  }
+});
 
         // Signup
         signupBtn.addEventListener("click", async () => {
