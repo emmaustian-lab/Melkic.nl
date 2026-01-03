@@ -133,33 +133,14 @@
         box-shadow: 0 6px 18px rgba(2,6,23,.04);
       }
       .payments.carousel{
-        position:relative;
         padding:8px 0;
       }
       .carousel-track{
         display:flex;
+        flex-direction:column;
         gap:12px;
-        overflow-x:auto;
-        scroll-behavior:smooth;
-        padding:6px 46px 6px 46px;
+        padding:6px 12px;
       }
-      .carousel-track::-webkit-scrollbar{height:8px}
-      .carousel-track::-webkit-scrollbar-thumb{background:#e5e7eb; border-radius:999px}
-      .carousel-btn{
-        position:absolute;
-        top:50%;
-        transform:translateY(-50%);
-        width:32px;
-        height:32px;
-        border-radius:999px;
-        border:1px solid var(--border);
-        background:#fff;
-        display:grid;
-        place-items:center;
-        cursor:pointer;
-      }
-      .carousel-btn.prev{left:10px}
-      .carousel-btn.next{right:10px}
       .row{
         display:grid;
         grid-template-columns: 44px 1fr 120px;
@@ -198,7 +179,6 @@
       .amount .euro{font-weight:800}
       .amount .when{font-size:12px; color:var(--muted); margin-top:4px}
       .payment-card{
-        min-width:260px;
         border:1px solid var(--border);
         border-radius:12px;
         box-shadow: 0 6px 18px rgba(2,6,23,.04);
@@ -311,7 +291,6 @@ button {
 
         <h2>Upcoming Payments</h2>
       <section class="payments carousel" aria-label="Upcoming payments list">
-        <button class="carousel-btn prev" type="button" aria-label="Vorige">‹</button>
         <div class="carousel-track" id="paymentsTrack">
         <div class="row payment-card" data-day="18">
           <div class="icon" title="Spotify">🟢</div>
@@ -373,7 +352,6 @@ button {
           </div>
         </div>
         </div>
-        <button class="carousel-btn next" type="button" aria-label="Volgende">›</button>
       </section>
       </div>
     </div>
@@ -393,8 +371,6 @@ button {
       const logoutBtn = document.getElementById("logoutBtn");
       const authMsg = document.getElementById("authMsg");
       const paymentsTrack = document.getElementById("paymentsTrack");
-      const prevBtn = document.querySelector(".carousel-btn.prev");
-      const nextBtn = document.querySelector(".carousel-btn.next");
 
       function setMsg(t) {
         if (authMsg) authMsg.textContent = t || "";
@@ -408,6 +384,12 @@ button {
         return (daysInMonth - today) + day;
       }
 
+      function formatDueText(days) {
+        if (days === 0) return "vandaag";
+        if (days === 1) return "betaling over 1 dag";
+        return `betaling over ${days} dagen`;
+      }
+
       function sortPayments() {
         if (!paymentsTrack) return;
         const items = Array.from(paymentsTrack.querySelectorAll(".payment-card[data-day]"));
@@ -416,14 +398,13 @@ button {
           const dayB = parseInt(b.getAttribute("data-day"), 10);
           return daysUntil(dayA) - daysUntil(dayB);
         });
-        items.forEach((item) => paymentsTrack.appendChild(item));
-      }
-
-      function getScrollAmount() {
-        const first = paymentsTrack?.querySelector(".payment-card");
-        if (!first) return 260;
-        const gap = parseInt(getComputedStyle(paymentsTrack).gap || "0", 10) || 0;
-        return first.getBoundingClientRect().width + gap;
+        items.forEach((item) => {
+          const day = parseInt(item.getAttribute("data-day"), 10);
+          const daysLeft = daysUntil(day);
+          const whenEl = item.querySelector(".when");
+          if (whenEl) whenEl.textContent = formatDueText(daysLeft);
+          paymentsTrack.appendChild(item);
+        });
       }
 
       async function refreshUI(sessionOverride) {
@@ -484,11 +465,5 @@ button {
 
       supabaseClient.auth.onAuthStateChange((_event, session) => refreshUI(session));
       sortPayments();
-      prevBtn?.addEventListener("click", () => {
-        paymentsTrack?.scrollBy({ left: -getScrollAmount(), behavior: "smooth" });
-      });
-      nextBtn?.addEventListener("click", () => {
-        paymentsTrack?.scrollBy({ left: getScrollAmount(), behavior: "smooth" });
-      });
       refreshUI();
     </script>
