@@ -61,7 +61,7 @@
         gap:12px;
       }
       .today-date{
-        font-size:12px;
+        font-size:14px;
         color:var(--muted);
         font-weight:600;
         text-transform:capitalize;
@@ -178,20 +178,20 @@
       }
       .title{
         font-weight:700;
-        font-size:13px;
+        font-size:12px;
         white-space:nowrap;
         overflow:hidden;
         text-overflow:ellipsis;
       }
       .sub{
-        font-size:12px;
+        font-size:11px;
         color:var(--muted);
         white-space:nowrap;
         overflow:hidden;
         text-overflow:ellipsis;
       }
       .provider{
-        font-size:12px;
+        font-size:11px;
         color:var(--muted);
         margin-top:4px;
         white-space:nowrap;
@@ -200,8 +200,8 @@
       }
       .tag{
         display:inline-block;
-        font-size:11px;
-        padding:2px 7px;
+        font-size:10px;
+        padding:2px 6px;
         border:1px solid var(--border);
         color:var(--muted);
         border-radius:999px;
@@ -211,9 +211,9 @@
       .amount{
         text-align:right;
       }
-      .amount .euro{font-weight:800}
+      .amount .euro{font-weight:800; font-size:13px}
       .amount .when{
-        font-size:12px;
+        font-size:11px;
         color:var(--muted);
         margin-top:4px;
         white-space:nowrap;
@@ -235,7 +235,11 @@
       }
       @media (max-width: 520px){
         .stats{grid-template-columns:1fr}
-        .row{grid-template-columns: 44px 1fr 96px}
+        .row{
+          grid-template-columns: 40px minmax(0, 1fr) 110px;
+          gap:6px;
+          padding:10px 12px;
+        }
       }
       /* iOS Safari fix voor knoppen */
 button {
