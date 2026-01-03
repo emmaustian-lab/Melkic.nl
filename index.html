@@ -132,6 +132,34 @@
         background:#fff;
         box-shadow: 0 6px 18px rgba(2,6,23,.04);
       }
+      .payments.carousel{
+        position:relative;
+        padding:8px 0;
+      }
+      .carousel-track{
+        display:flex;
+        gap:12px;
+        overflow-x:auto;
+        scroll-behavior:smooth;
+        padding:6px 46px 6px 46px;
+      }
+      .carousel-track::-webkit-scrollbar{height:8px}
+      .carousel-track::-webkit-scrollbar-thumb{background:#e5e7eb; border-radius:999px}
+      .carousel-btn{
+        position:absolute;
+        top:50%;
+        transform:translateY(-50%);
+        width:32px;
+        height:32px;
+        border-radius:999px;
+        border:1px solid var(--border);
+        background:#fff;
+        display:grid;
+        place-items:center;
+        cursor:pointer;
+      }
+      .carousel-btn.prev{left:10px}
+      .carousel-btn.next{right:10px}
       .row{
         display:grid;
         grid-template-columns: 44px 1fr 120px;
@@ -169,6 +197,14 @@
       }
       .amount .euro{font-weight:800}
       .amount .when{font-size:12px; color:var(--muted); margin-top:4px}
+      .payment-card{
+        min-width:260px;
+        border:1px solid var(--border);
+        border-radius:12px;
+        box-shadow: 0 6px 18px rgba(2,6,23,.04);
+        background:#fff;
+        border-top:none;
+      }
 
       /* responsive */
       @media (max-width: 860px){
@@ -274,67 +310,71 @@ button {
         </section>
 
         <h2>Upcoming Payments</h2>
-        <section class="payments" aria-label="Upcoming payments list">
-          <div class="row">
-            <div class="icon" title="Spotify">🟢</div>
-            <div>
-              <div class="titleline">
-                <div class="title">Spotify</div>
-                <div class="sub">Paypal</div>
-              </div>
-              <div class="tag">Emma</div>
+      <section class="payments carousel" aria-label="Upcoming payments list">
+        <button class="carousel-btn prev" type="button" aria-label="Vorige">‹</button>
+        <div class="carousel-track" id="paymentsTrack">
+        <div class="row payment-card" data-day="18">
+          <div class="icon" title="Spotify">🟢</div>
+          <div>
+            <div class="titleline">
+              <div class="title">Spotify</div>
+              <div class="sub">Paypal</div>
             </div>
-            <div class="amount">
-              <div class="euro">€18.00</div>
-              <div class="when">In 3 Days</div>
-            </div>
+            <div class="tag">Emma</div>
           </div>
+          <div class="amount">
+            <div class="euro">€18.00</div>
+            <div class="when">Elke 18e</div>
+          </div>
+        </div>
 
-          <div class="row">
-            <div class="icon" title="Internet">🌐</div>
-            <div>
-              <div class="titleline">
-                <div class="title">Internet Thuis</div>
-                <div class="sub">KPN</div>
-              </div>
-              <div class="tag">Gezamenlijk</div>
+        <div class="row payment-card" data-day="5">
+          <div class="icon" title="Internet">🌐</div>
+          <div>
+            <div class="titleline">
+              <div class="title">Internet Thuis</div>
+              <div class="sub">KPN</div>
             </div>
-            <div class="amount">
-              <div class="euro">€18.00</div>
-              <div class="when">In 4 Days</div>
-            </div>
+            <div class="tag">Gezamenlijk</div>
           </div>
+          <div class="amount">
+            <div class="euro">€18.00</div>
+            <div class="when">Elke 5e</div>
+          </div>
+        </div>
 
-          <div class="row">
-            <div class="icon" title="Splice">🎚️</div>
-            <div>
-              <div class="titleline">
-                <div class="title">Splice</div>
-                <div class="sub">Paypal Gezamenlijk</div>
-              </div>
-              <div class="tag">Hamza</div>
+        <div class="row payment-card" data-day="2">
+          <div class="icon" title="Splice">🎚️</div>
+          <div>
+            <div class="titleline">
+              <div class="title">Splice</div>
+              <div class="sub">Paypal Gezamenlijk</div>
             </div>
-            <div class="amount">
-              <div class="euro">€18.00</div>
-              <div class="when">In 10 Days</div>
-            </div>
+            <div class="tag">Hamza</div>
           </div>
+          <div class="amount">
+            <div class="euro">€18.00</div>
+            <div class="when">Elke 2e</div>
+          </div>
+        </div>
 
-          <div class="row">
-            <div class="icon" title="OneDrive">☁️</div>
-            <div>
-              <div class="titleline">
-                <div class="title">OneDrive</div>
-                <div class="sub">iDeal</div>
-              </div>
-              <div class="tag">Hamza</div>
+        <div class="row payment-card" data-day="16">
+          <div class="icon" title="OneDrive">☁️</div>
+          <div>
+            <div class="titleline">
+              <div class="title">OneDrive</div>
+              <div class="sub">iDeal</div>
             </div>
-            <div class="amount">
-              <div class="euro">€18.00</div>
-              <div class="when">In 10 Days</div>
-            </div>
+            <div class="tag">Hamza</div>
           </div>
-        </section>
+          <div class="amount">
+            <div class="euro">€18.00</div>
+            <div class="when">Elke 16e</div>
+          </div>
+        </div>
+        </div>
+        <button class="carousel-btn next" type="button" aria-label="Volgende">›</button>
+      </section>
       </div>
     </div>
 
@@ -352,9 +392,38 @@ button {
       const signupBtn = document.getElementById("signupBtn");
       const logoutBtn = document.getElementById("logoutBtn");
       const authMsg = document.getElementById("authMsg");
+      const paymentsTrack = document.getElementById("paymentsTrack");
+      const prevBtn = document.querySelector(".carousel-btn.prev");
+      const nextBtn = document.querySelector(".carousel-btn.next");
 
       function setMsg(t) {
         if (authMsg) authMsg.textContent = t || "";
+      }
+
+      function daysUntil(day) {
+        const now = new Date();
+        const today = now.getDate();
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        if (day >= today) return day - today;
+        return (daysInMonth - today) + day;
+      }
+
+      function sortPayments() {
+        if (!paymentsTrack) return;
+        const items = Array.from(paymentsTrack.querySelectorAll(".payment-card[data-day]"));
+        items.sort((a, b) => {
+          const dayA = parseInt(a.getAttribute("data-day"), 10);
+          const dayB = parseInt(b.getAttribute("data-day"), 10);
+          return daysUntil(dayA) - daysUntil(dayB);
+        });
+        items.forEach((item) => paymentsTrack.appendChild(item));
+      }
+
+      function getScrollAmount() {
+        const first = paymentsTrack?.querySelector(".payment-card");
+        if (!first) return 260;
+        const gap = parseInt(getComputedStyle(paymentsTrack).gap || "0", 10) || 0;
+        return first.getBoundingClientRect().width + gap;
       }
 
       async function refreshUI(sessionOverride) {
@@ -414,5 +483,12 @@ button {
       });
 
       supabaseClient.auth.onAuthStateChange((_event, session) => refreshUI(session));
+      sortPayments();
+      prevBtn?.addEventListener("click", () => {
+        paymentsTrack?.scrollBy({ left: -getScrollAmount(), behavior: "smooth" });
+      });
+      nextBtn?.addEventListener("click", () => {
+        paymentsTrack?.scrollBy({ left: getScrollAmount(), behavior: "smooth" });
+      });
       refreshUI();
     </script>
