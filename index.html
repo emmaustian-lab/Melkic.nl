@@ -361,7 +361,8 @@ button {
         if (logoutBtn) logoutBtn.style.display = loggedIn ? "" : "none";
         if (signupBtn) signupBtn.style.display = loggedIn ? "none" : "";
 
-        if (!loggedIn) setMsg("");
+        document.body.classList.toggle("auth-only", !loggedIn);
+        setMsg(loggedIn ? "Je bent ingelogd." : "");
       }
 
       // Login
