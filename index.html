@@ -167,10 +167,43 @@
 
   <body>
     <div class="wrap">
+            <section id="auth" style="max-width:420px; margin:0 auto 18px; border:1px solid var(--border); border-radius:14px; padding:14px; box-shadow: 0 6px 18px rgba(2,6,23,.04);">
+        <h2 style="margin:0 0 10px; font-size:16px;">Inloggen</h2>
+
+        <form id="loginForm" style="display:grid; gap:10px;">
+          <label style="display:grid; gap:6px; font-size:12px; color:var(--muted);">
+            E-mail
+            <input id="email" type="email" required style="padding:10px 12px; border:1px solid var(--border); border-radius:10px; font-size:14px;">
+          </label>
+
+          <label style="display:grid; gap:6px; font-size:12px; color:var(--muted);">
+            Wachtwoord
+            <input id="password" type="password" required minlength="8" style="padding:10px 12px; border:1px solid var(--border); border-radius:10px; font-size:14px;">
+          </label>
+
+          <button type="submit" style="padding:10px 12px; border:1px solid var(--border); border-radius:10px; font-weight:700; background:#fff; cursor:pointer;">
+            Log in
+          </button>
+
+          <button id="signupBtn" type="button" style="padding:10px 12px; border:1px solid var(--border); border-radius:10px; font-weight:700; background:#fff; cursor:pointer;">
+            Account maken
+          </button>
+
+          <button id="logoutBtn" type="button" style="padding:10px 12px; border:1px solid var(--border); border-radius:10px; font-weight:700; background:#fff; cursor:pointer; display:none;">
+            Uitloggen
+          </button>
+
+          <div id="authMsg" style="font-size:12px; color:var(--muted);"></div>
+        </form>
+      </section>
+
+      <div id="app">
+
       <nav class="topbar" aria-label="Primary">
         <a class="active" href="#">melkic</a>
         <a href="#">finance</a>
       </nav>
+</div>
 
       <div class="header">
         <a class="back" href="#">Back to home</a>
@@ -296,6 +329,63 @@
   const supabaseUrl = "https://cgeescjioqfmjfgdtlnm.supabase.co";
   const supabaseKey = "sb_publishable_lXmIiIiDriKmapEhhRzCFw_oi6rLdxR";
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  const authSection = document.getElementById("auth");
+  const app = document.getElementById("app");
+  const loginForm = document.getElementById("loginForm");
+  const signupBtn = document.getElementById("signupBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const authMsg = document.getElementById("authMsg");
+
+  function setMsg(text) {
+    authMsg.textContent = text || "";
+  }
+
+  async function refreshUI() {
+    const { data } = await supabase.auth.getSession();
+    const loggedIn = !!data.session;
+
+    app.style.display = loggedIn ? "" : "none";
+    logoutBtn.style.display = loggedIn ? "" : "none";
+    signupBtn.style.display = loggedIn ? "none" : "";
+    setMsg(loggedIn ? "Je bent ingelogd." : "Log in om verder te gaan.");
+  }
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    setMsg("Bezig met inloggen...");
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return setMsg("Inloggen mislukt: " + error.message);
+
+    setMsg("Ingelogd.");
+    await refreshUI();
+  });
+
+  signupBtn.addEventListener("click", async () => {
+    setMsg("Account aanmaken...");
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { error } = await supabase.auth.signUp({ email, password });
+    if (error) return setMsg("Account maken mislukt: " + error.message);
+
+    setMsg("Account gemaakt. Check je e-mail (soms) of probeer nu in te loggen.");
+    await refreshUI();
+  });
+
+  logoutBtn.addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    setMsg("Uitgelogd.");
+    await refreshUI();
+  });
+
+  supabase.auth.onAuthStateChange(() => refreshUI());
+
+  refreshUI();
 </script>
   </body>
 </html>
